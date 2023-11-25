@@ -1,11 +1,14 @@
-const express = require('express')
-const cors = require('cors')
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
 const apiRoutes = require('./api/routes');
 
 const app = express()
 
 app.use(cors())
 app.use('/api',apiRoutes)
+
+mongoose.connect('mongodb://localhost:27017/bhaws-fitness-tracker')
 
 
 app.get('/hello',(req,res) => {
