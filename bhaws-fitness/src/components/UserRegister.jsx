@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserRegister(){
 
-    const navigate = useNavigate()
+    let navigate = useNavigate()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -28,11 +28,10 @@ export default function UserRegister(){
         const data = await response.json()
 
         if(data.status=='ok'){
-            navigate.push('/login')
+            navigate('/login')
         }
 
         console.log(data)
-
 
     }
 

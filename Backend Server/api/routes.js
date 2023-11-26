@@ -5,6 +5,11 @@ const jwt = require('jsonwebtoken')
 
 router.use(express.json())
 
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------Resgister----------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------
+
 router.post('/register', async (req, res) => {
 
     console.log(req.body)
@@ -24,6 +29,11 @@ router.post('/register', async (req, res) => {
 
 });
 
+
+// -----------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------Login--------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------
+
 router.post('/login', async (req, res) => {
 
     const user = await User.findOne({
@@ -41,7 +51,6 @@ router.post('/login', async (req, res) => {
             'secret123'
         )
 
-
         res.json({ status:'ok', user: token })
     }else{
         res.json({ status:'error:', user: false})
@@ -50,6 +59,9 @@ router.post('/login', async (req, res) => {
 });
 
 
+// -----------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------Get User Info------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------
 
 router.get('/userinfo', async (req, res) => {
 
@@ -60,7 +72,7 @@ router.get('/userinfo', async (req, res) => {
         const email = decoded.email
         const user = await User.findOne({email: email})
 
-        return res.json({status:'ok',email:user.email})
+        return res.json({status:'ok',info:user})
 
     }catch(error){
         console.log(error)
@@ -69,6 +81,9 @@ router.get('/userinfo', async (req, res) => {
 
 });
 
+// -----------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------Update User Info---------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------
 
 router.post('/updateuserinfo', async (req, res) => {
 
@@ -77,12 +92,12 @@ router.post('/updateuserinfo', async (req, res) => {
     try{
         const decoded = jwt.verify(token,'secret123')
         const email = decoded.email
-        const user = await User.updateOne(
+        await User.updateOne(
             {email: email},
-            {$set: {email: req.body.email}}
+            {$set: {quote: req.body.quote}}
         )
 
-        res.json({status:'ok',info:user})
+        return res.json({status:'ok'})
 
     }catch(error){
         console.log(error)
