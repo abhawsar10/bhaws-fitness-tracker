@@ -67,6 +67,10 @@ export default function UserLogin(){
                         className="m-4 text-xl text-center rounded-md py-2 px-10 bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none" 
                         type="submit" value="Log In"
                     />
+                    
+                    <div>
+                        New to BHAWS? Register <a href="/register" className="underline">Here</a>
+                    </div>
                 </form>
             </div>
 

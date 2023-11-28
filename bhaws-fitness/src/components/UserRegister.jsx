@@ -79,6 +79,10 @@ export default function UserRegister(){
                         className="m-4 text-xl text-center rounded-md py-2 px-10 bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none"
                         type="submit" value="Register"
                     />
+
+                    <div>
+                        Already a User? Login <a href="/login" className="underline">Here</a>
+                    </div>
                 </form>
             </div>
 

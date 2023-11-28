@@ -24,12 +24,12 @@ export default function Landingpage(){
                     >
                             Register
                     </div>
-                    <div className="text-xl py-3 px-10 mt-4 rounded-xl text-white font-bungee text-center
+                    {/* <div className="text-xl py-3 px-10 mt-4 rounded-xl text-white font-bungee text-center
                         bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none"
                         onClick={gotoLogin}
                     >
                             Login
-                    </div>
+                    </div> */}
                 </div>
 
         </div>
