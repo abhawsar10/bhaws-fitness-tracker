@@ -11,6 +11,7 @@ export default {
         bebas: ['Bebas Neue', 'sans-serif'],
         kanit: ['Kanit', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
+        bungee: ['Bungee', 'sans-serif'],
       }
     },
   },
