@@ -12,12 +12,17 @@ export default function UserHome(){
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [quote, setQuote] = useState('')
+
+    const [age, setAge] = useState('')
+    const [weight, setWeight] = useState('')
+    const [height, setHeight] = useState('')
+    const [bmi, setBmi] = useState('')
     
-    const [tempname, setTempname] = useState('')
-    const [tempemail, setTempemail] = useState('')
-    const [temppassword, setTemppassword] = useState('')
-    const [tempquote, setTempquote] = useState('')
+    const [tempAge, setTempAge] = useState('')
+    const [tempWeight, setTempWeight] = useState('')
+    const [tempHeight, setTempHeight] = useState('')
+    const [tempBmi, setTempBmi] = useState('')
+
 
 
     async function populateDashboard(){
@@ -34,11 +39,16 @@ export default function UserHome(){
             setName(data.info.name)
             setEmail(data.info.email)
             setPassword(data.info.password)
-            setQuote(data.info.quote)
+            setAge(data.info.userDetails.age)
+            setWeight(data.info.userDetails.weight)
+            setHeight(data.info.userDetails.height)
+            setBmi(data.info.userDetails.BMI)
         }else{
             console.log(data.error)
         }
     }
+
+
 
     async function updateInfo(event){
 
@@ -50,7 +60,9 @@ export default function UserHome(){
                 'x-access-token': localStorage.getItem('token'),
             },
             body:JSON.stringify({
-                quote: tempquote,
+                ...(tempAge && { age: tempAge }),
+                ...(tempHeight && { height: tempHeight }),
+                ...(tempWeight && { weight: tempWeight }),
             })
         })
 
@@ -58,12 +70,16 @@ export default function UserHome(){
         console.log(data)
 
         if(data.status==='ok'){
-            setTempquote('')
-            setQuote(tempquote)
+            setTempAge('')
+            setTempHeight('')
+            setTempWeight('')
+            populateDashboard()
         }else{
             console.log(data.error)
         }
     }
+
+
 
     useEffect(()=>{
 
@@ -91,41 +107,40 @@ export default function UserHome(){
                 <br/>
                 Your Email: {email}
                 <br/>
-                Your Password: {password}
+                Your Age: {age}
                 <br/>
-                Your Quote: {quote}
+                Your Weight: {weight}
+                <br/>
+                Your Height: {height}
+                <br/>
+                Your BMI: {bmi}
                 <br/>
             </div>
             
             <form onSubmit={updateInfo}>
-{/*                     
-                <input 
-                    value={tempname}
-                    onChange={(e)=>setTempname(e.target.value)}
-                    type="text" 
-                    placeholder="Update Name" 
-                /><br/>
-
-                <input 
-                    value={tempemail}
-                    onChange={(e)=>setTempemail(e.target.value)}
-                    type="email" 
-                    placeholder="Update Email" 
-                /><br/>
-
-                <input 
-                    value={temppassword}
-                    onChange={(e)=>setTemppassword(e.target.value)}
-                    type="password" 
-                    placeholder="Update Password" 
-                /><br/> */}
+                
                 
                 <input 
-                    value={tempquote}
-                    onChange={(e)=>setTempquote(e.target.value)}
-                    type="text" 
-                    placeholder="Update Quote" 
+                    value={tempAge}
+                    onChange={(e)=>setTempAge(e.target.value)}
+                    type="Number" 
+                    placeholder="Update Age" 
                 /><br/>
+
+                <input 
+                    value={tempHeight}
+                    onChange={(e)=>setTempHeight(e.target.value)}
+                    type="Number" 
+                    placeholder="Update Height" 
+                /><br/>
+
+                <input 
+                    value={tempWeight}
+                    onChange={(e)=>setTempWeight(e.target.value)}
+                    type="Number" 
+                    placeholder="Update Weight" 
+                /><br/>
+
 
                 <input type="submit" value="Update Profile"/>
             </form>
