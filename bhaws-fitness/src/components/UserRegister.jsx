@@ -37,17 +37,18 @@ export default function UserRegister(){
 
 
     return(
-        <div className="">
+        <div className="h-screen w-full bg-zinc-900 text-white flex flex-col items-center justify-center">
 
-            <div className="">
+            <div className="flex flex-col items-center justify-center bg-slate-700 w-1/3 h-4/5 rounded-md drop-shadow-md ">
 
-                <h1 className="text-3xl font-bold underline">
-                    User Registration Page
+                <h1 className="text-4xl font-bungee m-4">
+                    Register
                 </h1>
 
-                <form onSubmit={registerUser}>
+                <form onSubmit={registerUser} className="w-11/12 text-center">
                     
                     <input 
+                        className="m-4 bg-slate-700 border-2 rounded-sm p-2 w-8/12 text-xl"
                         value={name}
                         onChange={(e)=>setName(e.target.value)}
                         type="text" 
@@ -56,6 +57,7 @@ export default function UserRegister(){
                     /><br/>
 
                     <input 
+                        className="m-4 bg-slate-700 border-2 rounded-sm p-2 w-8/12 text-xl"
                         value={email}
                         onChange={(e)=>setEmail(e.target.value)}
                         type="email" 
@@ -64,6 +66,7 @@ export default function UserRegister(){
                     /><br/>
 
                     <input 
+                        className="m-4 bg-slate-700 border-2 rounded-sm p-2 w-8/12 text-xl"
                         value={password}
                         onChange={(e)=>setPassword(e.target.value)}
                         type="password" 
@@ -72,7 +75,10 @@ export default function UserRegister(){
                     /><br/>
 
 
-                    <input type="submit" value="Register"/>
+                    <input 
+                        className="m-4 text-xl text-center rounded-md py-2 px-10 bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none"
+                        type="submit" value="Register"
+                    />
                 </form>
             </div>
 

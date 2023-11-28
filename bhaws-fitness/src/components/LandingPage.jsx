@@ -5,6 +5,9 @@ export default function Landingpage(){
 
     let navigate = useNavigate()
 
+    function gotoRegister(){
+        navigate('/register')
+    }
     function gotoLogin(){
         navigate('/login')
     }
@@ -14,11 +17,19 @@ export default function Landingpage(){
 
                 <div className="mb-20 font-bebas text-8xl drop-shadow-md">Bhaws Fitness Tracker</div>
 
-                <div className="text-5xl py-3 px-10 rounded-xl text-white font-bungee
-                    bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none"
-                    onClick={gotoLogin}
-                >
-                        Log In
+                <div className="">
+                    <div className="text-xl py-3 px-10 rounded-xl text-white font-bungee text-center
+                        bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none"
+                        onClick={gotoRegister}
+                    >
+                            Register
+                    </div>
+                    <div className="text-xl py-3 px-10 mt-4 rounded-xl text-white font-bungee text-center
+                        bg-gradient-to-r from-amber-400 to-purple-600 drop-shadow-md cursor-pointer select-none"
+                        onClick={gotoLogin}
+                    >
+                            Login
+                    </div>
                 </div>
 
         </div>
