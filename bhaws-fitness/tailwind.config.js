@@ -12,6 +12,7 @@ export default {
         kanit: ['Kanit', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
         bungee: ['Bungee', 'sans-serif'],
+        teko: ['Teko', 'sans-serif'],
       }
     },
   },

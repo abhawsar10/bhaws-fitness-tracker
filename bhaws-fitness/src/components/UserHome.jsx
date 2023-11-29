@@ -36,11 +36,12 @@ export default function UserHome(){
             setPassword(data.info.password)
 
             setMetrics({
-                'age':data.info.userDetails.age,
-                'weight':data.info.userDetails.weight,
-                'height':data.info.userDetails.height,
-                'bmi':data.info.userDetails.BMI,
+                'AGE':data.info.userDetails.age,
+                'WEIGHT':data.info.userDetails.weight,
+                'HEIGHT':data.info.userDetails.height,
+                'BMI':data.info.userDetails.BMI,
             })
+            console.log(metrics)
 
         }else{
             console.log(data.error)
@@ -106,27 +107,32 @@ export default function UserHome(){
                 <div className="text-5xl p-2 m-2">
                     Welcome {name}
                 </div>
-                <div className="grid grid-cols-2 m-2 gap-6 lg:gap-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 
+                                m-6 gap-6 lg:gap-10"
+                >
 
                     {Object.keys(metrics).length === 0 ? (
                         <div>Loading...</div>
                     ) : (
                         Object.keys(metrics).map((key) => (
-                        <div className="border-2" key={key}>
-                            {key}: {metrics[key]}
+
+                        <div key={key} 
+                            className="bg-gray-600 min-h-40 p-6 rounded-md shadow-lg" 
+                        >
+                            <div className=" text-center font-teko text-3xl">
+                                {key}
+                            </div>
+                            <div className=" text-center font-teko text-9xl py-6">
+                                {(metrics[key]===undefined || metrics[key]=== -1 )? `-` : metrics[key] }
+                                
+                            </div>
                         </div>
+
                         ))
                     )}
 
-
-                    {/* {Object.keys(metrics).map((key)=>{  
-                        <div className="border-2"> 
-                            {key}: {metrics[key]}
-                        </div>
-                    })} */}
-
 {/*                     
-                    <div className="border-2"> 
+                    <div className="border-2">  
                         Your Age: {age}
                     </div>
                     <div className="border-2"> 
@@ -141,7 +147,7 @@ export default function UserHome(){
 
                 </div>
                 
-                {/* <form onSubmit={updateInfo} className="p-4">
+                <form onSubmit={updateInfo} className="p-4">
                     
                     
                     <input 
@@ -169,7 +175,7 @@ export default function UserHome(){
                     /><br/>
 
                     <input type="submit" value="Update Profile"/>
-                </form> */}
+                </form>
 
 
             </div>
