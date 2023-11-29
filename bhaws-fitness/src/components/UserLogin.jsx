@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import Titlebar from "./Titlebar";
 
 export default function UserLogin(){
 
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    useEffect(()=>{
+
+        const token = localStorage.getItem('token')
+
+        if(token){
+            const user = jwtDecode(token)
+
+            if(!user){
+                localStorage.removeItem('token')
+            }else{
+                navigate('/dashboard')
+            }
+        }
+
+    },[])
 
     async function loginUser(event){
 
@@ -36,16 +55,20 @@ export default function UserLogin(){
 
     return(
         <>
-            <Titlebar/>
-            <div className="h-screen w-full bg-zinc-900 text-white flex flex-col items-center justify-center">
+            {/* <Titlebar/> */}
+            <div className="h-screen w-full pt-14 bg-zinc-900 text-white flex flex-col items-center justify-center">
 
-                <div className="flex flex-col items-center justify-center bg-slate-700 w-1/3 h-4/5 rounded-md drop-shadow-md ">
+                <div className="flex flex-col items-center py-20 bg-slate-700 w-1/3 h-4/5 rounded-md drop-shadow-md ">
+
+                    <a href="/" className="font-bebas text-white align-middle text-5xl mb-10 px-10">
+                        Bhaws Fitness Tracker
+                    </a>
 
                     <h1 className="text-4xl font-bungee m-4">
                         Log In
                     </h1>
 
-                    <form onSubmit={loginUser} className="w-11/12 text-center">
+                    <form onSubmit={loginUser} className="w-full text-center">
                         
                         <input 
                             className="m-4 bg-slate-700 border-2 rounded-sm p-2 w-8/12 text-xl"

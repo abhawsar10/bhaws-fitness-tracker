@@ -1,7 +1,5 @@
 import React, { useEffect,useState } from "react";
-// import { Jwt, decode } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
-
 import { useNavigate } from "react-router-dom";
 
 
@@ -102,48 +100,52 @@ export default function UserHome(){
 
     return(
         <>
-            <div className="p-4"> 
-                Welcome {name}
-                <br/>
-                Your Email: {email}
-                <br/>
-                Your Age: {age}
-                <br/>
-                Your Weight: {weight}
-                <br/>
-                Your Height: {height}
-                <br/>
-                Your BMI: {bmi}
-                <br/>
+            <div className="h-full w-full bg-zinc-900 text-white flex flex-col p-4 rounded-md shadow-xl">
+                
+                <div className="p-4"> 
+
+                    Welcome {name}
+                    <br/>
+                    Your Email: {email}
+                    <br/>
+                    Your Age: {age}
+                    <br/>
+                    Your Weight: {weight}
+                    <br/>
+                    Your Height: {height}
+                    <br/>
+                    Your BMI: {bmi}
+                    <br/>
+                </div>
+                
+                <form onSubmit={updateInfo}>
+                    
+                    
+                    <input 
+                        value={tempAge}
+                        onChange={(e)=>setTempAge(e.target.value)}
+                        type="Number" 
+                        placeholder="Update Age" 
+                    /><br/>
+
+                    <input 
+                        value={tempHeight}
+                        onChange={(e)=>setTempHeight(e.target.value)}
+                        type="Number" 
+                        placeholder="Update Height" 
+                    /><br/>
+
+                    <input 
+                        value={tempWeight}
+                        onChange={(e)=>setTempWeight(e.target.value)}
+                        type="Number" 
+                        placeholder="Update Weight" 
+                    /><br/>
+
+
+                    <input type="submit" value="Update Profile"/>
+                </form>
             </div>
-            
-            <form onSubmit={updateInfo}>
-                
-                
-                <input 
-                    value={tempAge}
-                    onChange={(e)=>setTempAge(e.target.value)}
-                    type="Number" 
-                    placeholder="Update Age" 
-                /><br/>
-
-                <input 
-                    value={tempHeight}
-                    onChange={(e)=>setTempHeight(e.target.value)}
-                    type="Number" 
-                    placeholder="Update Height" 
-                /><br/>
-
-                <input 
-                    value={tempWeight}
-                    onChange={(e)=>setTempWeight(e.target.value)}
-                    type="Number" 
-                    placeholder="Update Weight" 
-                /><br/>
-
-
-                <input type="submit" value="Update Profile"/>
-            </form>
         </>
     )
 

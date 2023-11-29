@@ -39,10 +39,14 @@ export default function UserRegister(){
 
     return(
         <>
-            <Titlebar/>
-            <div className="h-screen w-full bg-zinc-900 text-white flex flex-col items-center justify-center">
+            {/* <Titlebar/> */}
+            <div className="h-screen w-full pt-14  bg-zinc-900 text-white flex flex-col items-center justify-center">
 
-                <div className="flex flex-col items-center justify-center bg-slate-700 w-1/3 h-4/5 rounded-md drop-shadow-md ">
+                <div className="flex flex-col items-center py-20 bg-slate-700 w-1/3 h-4/5 rounded-md drop-shadow-md ">
+
+                    <a href="/" className="font-bebas text-white align-middle text-5xl mb-10 px-10">
+                        Bhaws Fitness Tracker
+                    </a>
 
                     <h1 className="text-4xl font-bungee m-4">
                         Register
