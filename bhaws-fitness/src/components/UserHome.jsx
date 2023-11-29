@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import UserMertric from "./UserMetric";
 
 
 export default function UserHome(){
@@ -11,15 +12,11 @@ export default function UserHome(){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const [age, setAge] = useState('')
-    const [weight, setWeight] = useState('')
-    const [height, setHeight] = useState('')
-    const [bmi, setBmi] = useState('')
-    
     const [tempAge, setTempAge] = useState('')
     const [tempWeight, setTempWeight] = useState('')
     const [tempHeight, setTempHeight] = useState('')
-    const [tempBmi, setTempBmi] = useState('')
+    
+    const [metrics, setMetrics] = useState({})
 
 
 
@@ -37,10 +34,14 @@ export default function UserHome(){
             setName(data.info.name)
             setEmail(data.info.email)
             setPassword(data.info.password)
-            setAge(data.info.userDetails.age)
-            setWeight(data.info.userDetails.weight)
-            setHeight(data.info.userDetails.height)
-            setBmi(data.info.userDetails.BMI)
+
+            setMetrics({
+                'age':data.info.userDetails.age,
+                'weight':data.info.userDetails.weight,
+                'height':data.info.userDetails.height,
+                'bmi':data.info.userDetails.BMI,
+            })
+
         }else{
             console.log(data.error)
         }
@@ -72,15 +73,14 @@ export default function UserHome(){
             setTempHeight('')
             setTempWeight('')
             populateDashboard()
+            
         }else{
             console.log(data.error)
         }
     }
 
-
-
     useEffect(()=>{
-
+        
         const token = localStorage.getItem('token')
 
         if(token){
@@ -90,6 +90,8 @@ export default function UserHome(){
                 localStorage.removeItem('token')
             }else{
                 populateDashboard()
+                
+                console.log(metrics)
             }
         }else{
             console.log("Login First")
@@ -101,27 +103,49 @@ export default function UserHome(){
     return(
         <>
             <div className="h-full w-full bg-zinc-900 text-white flex flex-col p-4 rounded-md shadow-xl">
-                
-                <div className="p-4"> 
-
+                <div className="text-5xl p-2 m-2">
                     Welcome {name}
-                    <br/>
-                    Your Email: {email}
-                    <br/>
-                    Your Age: {age}
-                    <br/>
-                    Your Weight: {weight}
-                    <br/>
-                    Your Height: {height}
-                    <br/>
-                    Your BMI: {bmi}
-                    <br/>
+                </div>
+                <div className="grid grid-cols-2 m-2 gap-6 lg:gap-20">
+
+                    {Object.keys(metrics).length === 0 ? (
+                        <div>Loading...</div>
+                    ) : (
+                        Object.keys(metrics).map((key) => (
+                        <div className="border-2" key={key}>
+                            {key}: {metrics[key]}
+                        </div>
+                        ))
+                    )}
+
+
+                    {/* {Object.keys(metrics).map((key)=>{  
+                        <div className="border-2"> 
+                            {key}: {metrics[key]}
+                        </div>
+                    })} */}
+
+{/*                     
+                    <div className="border-2"> 
+                        Your Age: {age}
+                    </div>
+                    <div className="border-2"> 
+                        Your Weight: {weight}
+                    </div>
+                    <div className="border-2"> 
+                        Your Height: {height}
+                    </div>
+                    <div className="border-2"> 
+                        Your BMI: {bmi}
+                    </div> */}
+
                 </div>
                 
-                <form onSubmit={updateInfo}>
+                {/* <form onSubmit={updateInfo} className="p-4">
                     
                     
                     <input 
+                        className="mb-4 text-black"
                         value={tempAge}
                         onChange={(e)=>setTempAge(e.target.value)}
                         type="Number" 
@@ -129,6 +153,7 @@ export default function UserHome(){
                     /><br/>
 
                     <input 
+                        className="mb-4 text-black"
                         value={tempHeight}
                         onChange={(e)=>setTempHeight(e.target.value)}
                         type="Number" 
@@ -136,15 +161,17 @@ export default function UserHome(){
                     /><br/>
 
                     <input 
+                        className="mb-4 text-black"
                         value={tempWeight}
                         onChange={(e)=>setTempWeight(e.target.value)}
                         type="Number" 
                         placeholder="Update Weight" 
                     /><br/>
 
-
                     <input type="submit" value="Update Profile"/>
-                </form>
+                </form> */}
+
+
             </div>
         </>
     )

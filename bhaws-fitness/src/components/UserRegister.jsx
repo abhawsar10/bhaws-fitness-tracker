@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Titlebar from "./Titlebar";
 
 export default function UserRegister(){
 

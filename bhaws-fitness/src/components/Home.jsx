@@ -1,5 +1,4 @@
 import React from "react";
-import Titlebar from "./Titlebar";
 import Sidebar from "./Sidebar";
 import UserHome from "./UserHome";
 
