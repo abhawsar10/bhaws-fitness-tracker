@@ -14,10 +14,6 @@ export default function UserHome(){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const [tempAge, setTempAge] = useState('')
-    const [tempWeight, setTempWeight] = useState('')
-    const [tempHeight, setTempHeight] = useState('')
-    
     const [metrics, setMetrics] = useState({})
 
     function toggleEditmode(){
@@ -42,9 +38,9 @@ export default function UserHome(){
             setPassword(data.info.password)
 
             setMetrics({
-                'AGE':data.info.userDetails.age,
-                'WEIGHT':data.info.userDetails.weight,
-                'HEIGHT':data.info.userDetails.height,
+                'Age':data.info.userDetails.age,
+                'Weight':data.info.userDetails.weight,
+                'Height':data.info.userDetails.height,
                 'BMI':data.info.userDetails.BMI,
             })
             console.log(metrics)
@@ -53,7 +49,6 @@ export default function UserHome(){
             console.log(data.error)
         }
     }
-
 
 
     async function updateInfo(event){
@@ -66,9 +61,9 @@ export default function UserHome(){
                 'x-access-token': localStorage.getItem('token'),
             },
             body:JSON.stringify({
-                ...(tempAge && { age: tempAge }),
-                ...(tempHeight && { height: tempHeight }),
-                ...(tempWeight && { weight: tempWeight }),
+                age: metrics['Age'] ,
+                height: metrics['Height'],
+                weight: metrics['Weight'],
             })
         })
 
@@ -76,15 +71,14 @@ export default function UserHome(){
         console.log(data)
 
         if(data.status==='ok'){
-            setTempAge('')
-            setTempHeight('')
-            setTempWeight('')
             populateDashboard()
+            toggleEditmode()
             
         }else{
             console.log(data.error)
         }
     }
+
 
     useEffect(()=>{
         
@@ -124,7 +118,7 @@ export default function UserHome(){
 
                     {editMode &&
                         <div 
-                            onClick={toggleEditmode} 
+                            onClick={updateInfo} 
                             className="order-last bg-green-500 text-xl py-2 px-4 rounded-md shadow-lg cursor-pointer"
                         >
                             Save Entry
@@ -148,7 +142,30 @@ export default function UserHome(){
                                     {key}
                                 </div>
                                 <div className=" text-center font-teko text-9xl py-6">
-                                    {(metrics[key]===undefined || metrics[key]=== -1 )? `-` : metrics[key] }
+                                    
+                                    {editMode ? (
+                                        
+                                        <input
+                                            className="bg-gray-500 w-full text-white border-2 rounded-sm text-md text-center"
+                                            value={metrics[key]}
+                                            onChange={(e) => {
+                                                
+                                                let old_metrics = JSON.parse(JSON.stringify(metrics))
+                                                old_metrics[key] = e.target.value
+                                                setMetrics(old_metrics)
+
+                                                // setTempValues[key](e.target.value); 
+                                            }}
+                                            type="number"
+                                        />
+                                        
+                                    ) : (
+                                        metrics[key] === undefined || metrics[key] === -1 ? (
+                                            `-`
+                                            ) : (
+                                            metrics[key]
+                                            )
+                                    )}
                                     
                                 </div>
                             </div>
@@ -160,35 +177,6 @@ export default function UserHome(){
 
                 </div>
                 
-                <form onSubmit={updateInfo} className="p-4">
-                    
-                    
-                    <input 
-                        className="mb-4 text-black"
-                        value={tempAge}
-                        onChange={(e)=>setTempAge(e.target.value)}
-                        type="Number" 
-                        placeholder="Update Age" 
-                    /><br/>
-
-                    <input 
-                        className="mb-4 text-black"
-                        value={tempHeight}
-                        onChange={(e)=>setTempHeight(e.target.value)}
-                        type="Number" 
-                        placeholder="Update Height" 
-                    /><br/>
-
-                    <input 
-                        className="mb-4 text-black"
-                        value={tempWeight}
-                        onChange={(e)=>setTempWeight(e.target.value)}
-                        type="Number" 
-                        placeholder="Update Weight" 
-                    /><br/>
-
-                    <input type="submit" value="Update Profile"/>
-                </form>
 
 
             </div>
