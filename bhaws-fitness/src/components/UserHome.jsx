@@ -7,6 +7,8 @@ import UserMertric from "./UserMetric";
 export default function UserHome(){
 
     const navigate = useNavigate()
+
+    const [editMode,setEditMode] = useState(false)
     
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -17,6 +19,10 @@ export default function UserHome(){
     const [tempHeight, setTempHeight] = useState('')
     
     const [metrics, setMetrics] = useState({})
+
+    function toggleEditmode(){
+        setEditMode(!editMode)
+    }
 
 
 
@@ -103,9 +109,28 @@ export default function UserHome(){
 
     return(
         <>
-            <div className="h-full w-full bg-zinc-900 text-white flex flex-col p-4 rounded-md shadow-xl">
-                <div className="text-5xl p-2 m-2">
-                    Welcome {name}
+            <div className="h-full w-full bg-zinc-900 item text-white flex flex-col p-4 rounded-md shadow-xl">
+                <div className=" flex justify-between items-center m-6  ">
+                    <div className="order-first text-5xl">Welcome {name}</div>
+
+                    {editMode!==true && 
+                        <div 
+                            onClick={toggleEditmode} 
+                            className="order-last bg-blue-500 text-xl py-2 px-4 rounded-md shadow-lg cursor-pointer"
+                        >
+                            + Entry
+                        </div>
+                    }
+
+                    {editMode &&
+                        <div 
+                            onClick={toggleEditmode} 
+                            className="order-last bg-green-500 text-xl py-2 px-4 rounded-md shadow-lg cursor-pointer"
+                        >
+                            Save Entry
+                        </div>
+                    }
+
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 
                                 m-6 gap-6 lg:gap-10"
@@ -115,35 +140,23 @@ export default function UserHome(){
                         <div>Loading...</div>
                     ) : (
                         Object.keys(metrics).map((key) => (
+                            
+                            <div key={key} 
+                                className="bg-gray-600 min-h-40 p-6 rounded-md shadow-lg" 
+                            >
+                                <div className=" text-center font-teko text-3xl">
+                                    {key}
+                                </div>
+                                <div className=" text-center font-teko text-9xl py-6">
+                                    {(metrics[key]===undefined || metrics[key]=== -1 )? `-` : metrics[key] }
+                                    
+                                </div>
+                            </div>
 
-                        <div key={key} 
-                            className="bg-gray-600 min-h-40 p-6 rounded-md shadow-lg" 
-                        >
-                            <div className=" text-center font-teko text-3xl">
-                                {key}
-                            </div>
-                            <div className=" text-center font-teko text-9xl py-6">
-                                {(metrics[key]===undefined || metrics[key]=== -1 )? `-` : metrics[key] }
-                                
-                            </div>
-                        </div>
 
                         ))
                     )}
 
-{/*                     
-                    <div className="border-2">  
-                        Your Age: {age}
-                    </div>
-                    <div className="border-2"> 
-                        Your Weight: {weight}
-                    </div>
-                    <div className="border-2"> 
-                        Your Height: {height}
-                    </div>
-                    <div className="border-2"> 
-                        Your BMI: {bmi}
-                    </div> */}
 
                 </div>
                 
