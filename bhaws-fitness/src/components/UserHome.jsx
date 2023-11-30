@@ -146,7 +146,7 @@ export default function UserHome(){
                                     {editMode ? (
                                         
                                         <input
-                                            className="bg-gray-500 w-full text-white border-2 rounded-sm text-md text-center"
+                                            className="bg-gray-500 w-full text-white rounded-sm text-md text-center"
                                             value={metrics[key]}
                                             onChange={(e) => {
                                                 
@@ -154,7 +154,6 @@ export default function UserHome(){
                                                 old_metrics[key] = e.target.value
                                                 setMetrics(old_metrics)
 
-                                                // setTempValues[key](e.target.value); 
                                             }}
                                             type="number"
                                         />
