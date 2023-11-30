@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 import UserHome from "./UserHome";
+import {Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 export default function Home(){
 

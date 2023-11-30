@@ -18,7 +18,7 @@ export default function UserLogin(){
             if(!user){
                 localStorage.removeItem('token')
             }else{
-                navigate('/dashboard')
+                navigate('/home')
             }
         }
 
@@ -43,7 +43,7 @@ export default function UserLogin(){
         if (data.user){
             alert("Login Successful")
             localStorage.setItem('token',data.user)
-            window.location.href = '/dashboard'
+            window.location.href = '/home'
         }else{
             alert("Please Check Login Information")
         }
