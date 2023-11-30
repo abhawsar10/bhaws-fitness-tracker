@@ -20,11 +20,13 @@ router.post('/register', async (req, res) => {
 
     try{
 
+        const userDetails = await UserDetails.create({});
+
         const user = await User.create({
             name: req.body.name,
             email: req.body.email,
             password: SecurePassword,
-            userDetails: await UserDetails.create({})
+            userDetails: userDetails._id,
         })
 
 
@@ -101,25 +103,31 @@ router.post('/updateuserinfo', async (req, res) => {
 
     const token = req.headers['x-access-token']
 
-    const updateFields = {updatedAt:Date.now()};
-    if (req.body.age) {
-        updateFields.age = req.body.age;
-    }
-    if (req.body.height) {
-        updateFields.height = req.body.height;
-    }
-    if (req.body.weight) {
-        updateFields.weight = req.body.weight;
-    }
-
     try{
         const decoded = jwt.verify(token,'secret123')
-        const user = await User.findOne({email: decoded.email})
-        
-        await UserDetails.updateOne(
-            {_id: user.userDetails},
-            {$set: updateFields}
-        )
+        const user = await User.findOne({email: decoded.email}).populate('userDetails')
+        const userdetails = await UserDetails.findOne({_id: user.userDetails})
+
+        //check first if age,weight,height,bmi is passed in the request.(Only if user has new account will these be empty)
+        if (req.body.age){  
+            userdetails.age = req.body.age;
+        }
+        if (req.body.weight){
+            userdetails.weight.unshift({ weight: req.body.weight, timestamp: Date.now() });         //add new weight to start of array
+        }
+        if (req.body.height){
+            userdetails.height.unshift({ height: req.body.height, timestamp: Date.now() });         //add new height to start of array
+        }
+        if (userdetails.height.length>0 && userdetails.weight.length>0) {
+            const heightInMeters = userdetails.height[0].height / 100; 
+            const bmi = parseFloat((userdetails.weight[0].weight / (heightInMeters * heightInMeters)).toFixed(2));
+
+            userdetails.BMI.unshift({ BMI: bmi, timestamp: Date.now() });         //add new bmi to start of array
+        }
+
+        userdetails.updatedAt = Date.now()
+        userdetails.save()
+        // console.log(userdetails)
 
         return res.json({status:'ok'})
 

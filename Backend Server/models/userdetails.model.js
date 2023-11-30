@@ -2,16 +2,34 @@ const mongoose = require('mongoose')
 
 const user_details = new mongoose.Schema(
     {
-        age: {type:Number, min:18, max:99, required:false},
-        weight: {type:Number, min:10, max:1000, required: false},
-        height: {type:Number, min:10, max:1000, required: false},
-        BMI: {type:Number, required: false, default:-1},
+        age: {type:Number, min:0, max:99, required:false},
+
+        weight: {type:
+            [{
+            weight: {type:Number, min:0, max:1000, required: false},
+            timestamp: {type: Date, default: Date.now}
+        }],default:[]},
+
+        height: {type:
+            [{
+            height: {type:Number, min:0, max:1000, required: false},
+            timestamp: {type: Date, default: Date.now}
+        }],default:[]},
+
+        BMI: {type:
+            [{
+            BMI: {type:Number, required: false},
+            timestamp: {type: Date, default: Date.now}
+        }],default:[]},
+
         createdAt: {type:Date, default: Date.now, immutable: true},
         updatedAt:  {type: Date, default: Date.now},
     },
     {collection: 'user-details'}
 )
 
+
+//hook to calculate BMI
 user_details.post('updateOne', async function (doc,next){
     
     try {

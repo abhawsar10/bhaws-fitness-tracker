@@ -20,7 +20,24 @@ export default function UserHome(){
         setEditMode(!editMode)
     }
 
-
+    const units = {
+        'Age':'Years',
+        'Weight':'Kgs',
+        'Height':'Cm',
+        'BMI': ''
+    }
+    const maxlimits = {
+        'Age':99,
+        'Weight':1000,
+        'Height':1000,
+        'BMI': Infinity,
+    }
+    const minlimits = {
+        'Age':0,
+        'Weight':0,
+        'Height':0,
+        'BMI': 0,
+    }
 
     async function populateDashboard(){
         const response = await fetch('http://localhost:6968/api/userinfo',{
@@ -38,10 +55,10 @@ export default function UserHome(){
             setPassword(data.info.password)
 
             setMetrics({
-                'Age':data.info.userDetails.age,
-                'Weight':data.info.userDetails.weight,
-                'Height':data.info.userDetails.height,
-                'BMI':data.info.userDetails.BMI,
+                'Age':data.info.userDetails.age || 0 ,
+                'Weight':data.info.userDetails.weight.length > 0 ? data.info.userDetails.weight[0].weight : 0,
+                'Height':data.info.userDetails.height.length > 0 ? data.info.userDetails.height[0].height : 0,
+                'BMI':data.info.userDetails.BMI.length > 0 ? data.info.userDetails.BMI[0].BMI : 0,
             })
             console.log(metrics)
 
@@ -51,31 +68,51 @@ export default function UserHome(){
     }
 
 
+
+    function inputIsValid(){
+        
+        Object.keys(metrics).map((key) => {
+            if (metrics[key] < minlimits[key] || metrics[key] > maxlimits[key]){
+                alert(`${key} value should be between ${minlimits[key]} and ${maxlimits[key]}`)
+                return false
+            }
+        })
+        return true 
+    }
+
     async function updateInfo(event){
 
         event.preventDefault()
-        const req = await fetch('http://localhost:6968/api/updateuserinfo',{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
-                'x-access-token': localStorage.getItem('token'),
-            },
-            body:JSON.stringify({
-                age: metrics['Age'] ,
-                height: metrics['Height'],
-                weight: metrics['Weight'],
+
+        if (inputIsValid()){
+
+            const req = await fetch('http://localhost:6968/api/updateuserinfo',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'x-access-token': localStorage.getItem('token'),
+                },
+                body:JSON.stringify({
+                    age: metrics['Age'] ,       //if these are undefined (as when account is created, these fields wont be sent in the request)
+                    height: metrics['Height'],
+                    weight: metrics['Weight'],
+                })
             })
-        })
 
-        const data = await req.json()
-        console.log(data)
+            const data = await req.json()
+            console.log(data)
 
-        if(data.status==='ok'){
+            if(data.status==='ok'){
+                populateDashboard()
+                toggleEditmode()
+                
+            }else{
+                console.log(data.error)
+            }
+        }
+        else{
             populateDashboard()
             toggleEditmode()
-            
-        }else{
-            console.log(data.error)
         }
     }
 
@@ -141,7 +178,7 @@ export default function UserHome(){
                                 <div className=" text-center font-teko text-3xl">
                                     {key}
                                 </div>
-                                <div className=" text-center font-teko text-9xl py-6">
+                                <div className=" text-center font-teko text-9xl pt-4 -mb-4">
                                     
                                     {editMode ? (
                                         
@@ -159,13 +196,16 @@ export default function UserHome(){
                                         />
                                         
                                     ) : (
-                                        metrics[key] === undefined || metrics[key] === -1 ? (
+                                        metrics[key] === undefined || metrics[key] === -1 || metrics[key] === 0 ? (
                                             `-`
                                             ) : (
                                             metrics[key]
                                             )
                                     )}
                                     
+                                </div>
+                                <div className=" text-center font-teko text-3xl">
+                                    {units[key]}
                                 </div>
                             </div>
 
